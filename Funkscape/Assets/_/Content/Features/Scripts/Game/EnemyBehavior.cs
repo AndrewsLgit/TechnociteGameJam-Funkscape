@@ -1,13 +1,15 @@
+using System;
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 
+// TODO: Add enemy attack
 public class EnemyBehavior : MonoBehaviour
 {
     #region Public Variables
 
-    public UnityEvent m_onPlayerHit;
     public UnityEvent m_onEnemyDestoyed;
     
     #endregion
@@ -16,10 +18,14 @@ public class EnemyBehavior : MonoBehaviour
     
     //private Transform _playerTransform;
     private Rigidbody2D _rigidbody;
+    private Sequence _tweenSequence;
     private int _thrust = 5;
+    private bool _movedRight = false;
+    private bool _movedUp = false;
+    private int _idleCycleNb = 0;
 
-    [SerializeField] private Vector2 _idleMoveDistance = new Vector2(3,3);
-    [SerializeField] private float _idleMoveTime = 0.2f;
+    [SerializeField] private Vector2 _idleMoveDistance = new Vector2(0.6f, 0.3f);
+    [SerializeField] private float _idleMoveTime = 0.8f;
     [SerializeField] private Transform _weaponPoint;
     [SerializeField] private SpawnPool _projectilePool;
     
@@ -30,17 +36,15 @@ public class EnemyBehavior : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        DOTween.Init(recycleAllByDefault: true);
         _rigidbody = gameObject.GetComponent<Rigidbody2D>();
         _projectilePool = FindFirstObjectByType<SpawnPool>();
-        //_playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // LookAtPosition(_playerTransform.transform.position);
-        //Move();
-        IdleMovement();
+        StartCoroutine(IdleMovement());
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -48,15 +52,8 @@ public class EnemyBehavior : MonoBehaviour
         if (collision.gameObject.CompareTag("Laser"))
         {
             Debug.Log($"Hit by laser: {collision.gameObject.name}");
-            //Destroy(this.gameObject);
             Deactivate();
         }
-
-        // if (collision.gameObject.CompareTag("Player"))
-        // {
-        //     Debug.Log($"Collision with player: {collision.gameObject.name}");
-        //     m_onPlayerHit.Invoke();
-        // }
     }
 
     private void OnEnable()
@@ -64,16 +61,42 @@ public class EnemyBehavior : MonoBehaviour
         //LookAtPosition(_playerInput.GetPlayerPosition());
     }
 
+    private void OnDisable()
+    {
+        DOTween.Clear();
+    }
+
     #endregion
 
     #region Main Methods
 
-    private void IdleMovement()
+    private IEnumerator IdleMovement()
     {
-        StartCoroutine(MoveDown());
-        StartCoroutine(MoveLeft());
-        StartCoroutine(MoveUp());
-        StartCoroutine(MoveRight());
+        // _tweenSequence  = DOTween.Sequence()
+        //     .SetLoops(-1, LoopType.Yoyo)
+        //     .SetEase(Ease.Linear);
+        
+        // _tweenSequence.Append(
+        //     transform.DOMoveX(transform.position.x + _idleMoveDistance.x, _idleMoveTime))
+        //     .SetEase(Ease.Linear);
+        // _tweenSequence.Append(
+        //     transform.DOMoveY(transform.position.y + _idleMoveDistance.y, _idleMoveTime))
+        //     .SetEase(Ease.Linear);
+        // _tweenSequence.Append(
+        //     transform.DOMove(newPos, _idleMoveTime));
+        // _tweenSequence.Play();
+        
+        switch (_movedRight)
+        {
+            case true:
+                yield return transform.DOMoveX(transform.localPosition.x - _idleMoveDistance.x, _idleMoveTime)
+                    .OnComplete(() => _movedRight = false);
+                break;
+            case false:
+                transform.DOMoveX(transform.localPosition.x + _idleMoveDistance.x, _idleMoveTime)
+                    .OnComplete(() => _movedRight = true);
+                break;
+        }
     }
 
     private void Attack()
@@ -85,47 +108,13 @@ public class EnemyBehavior : MonoBehaviour
         projectile.SetActive(true);
         //Debug.Log($"Shot {laser.name}");
     }
-    
-    /*private void LookAtPosition(Vector2 targetPos)
-    {
-        Vector2 direction = (targetPos) - (Vector2)gameObject.transform.position;
-        gameObject.transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
-    }*/
 
     private void Deactivate()
     {
         m_onEnemyDestoyed.Invoke();
         m_onEnemyDestoyed.RemoveAllListeners();
-        m_onPlayerHit.RemoveAllListeners();
         gameObject.SetActive(false);
     }
 
-    #endregion
-    
-    #region Utils
-
-    private IEnumerator MoveUp()
-    {
-        yield return new WaitForSeconds(_idleMoveTime);
-        transform.Translate(gameObject.transform.up * (Time.deltaTime * _idleMoveDistance.y));
-    }
-
-    private IEnumerator MoveDown()
-    {
-        yield return new WaitForSeconds(_idleMoveTime);
-        transform.Translate(-gameObject.transform.up * (Time.deltaTime * _idleMoveDistance.y));
-    }
-
-    private IEnumerator MoveLeft()
-    {
-        yield return new WaitForSeconds(_idleMoveTime);
-        transform.Translate(-gameObject.transform.right * (Time.deltaTime * _idleMoveDistance.x));
-    }
-
-    private IEnumerator MoveRight()
-    {
-        yield return new WaitForSeconds(_idleMoveTime);
-        transform.Translate(gameObject.transform.right * (Time.deltaTime * _idleMoveDistance.x));
-    }
     #endregion
 }

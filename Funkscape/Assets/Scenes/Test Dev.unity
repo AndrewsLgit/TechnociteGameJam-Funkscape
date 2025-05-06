@@ -119,6 +119,107 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &105752985 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7020653825576734767, guid: 677f275b077274004a455e6caa3ed4cb, type: 3}
+  m_PrefabInstance: {fileID: 4838783748268529861}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c047aca78b1f4eb4b46297f85ee228d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &202836189
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 202836191}
+  - component: {fileID: 202836190}
+  m_Layer: 0
+  m_Name: Game Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &202836190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 202836189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3183aeb9e45f472db2f4ae435ed3bb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_disableEnemySpawn:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 105752985}
+        m_TargetAssemblyTypeName: Spawner, Game
+        m_MethodName: SetCanSpawn
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_enableEnemySpawn:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 105752985}
+        m_TargetAssemblyTypeName: Spawner, Game
+        m_MethodName: SetCanSpawn
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  m_resetSpawnPoints:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 105752985}
+        m_TargetAssemblyTypeName: Spawner, Game
+        m_MethodName: ResetSpawnPoints
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _roundSystemSO: {fileID: 11400000, guid: 53e6f2444606543cb9165cb9c80a9c96, type: 2}
+--- !u!4 &202836191
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 202836189}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.030411657, y: 0.93175656, z: 0.037327405}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &485168320 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8051368320180246775, guid: a81d21810ebec4254b210a819aa05c8c, type: 3}
@@ -657,6 +758,34 @@ PrefabInstance:
       propertyPath: _poolPrefab
       value: 
       objectReference: {fileID: 485168320}
+    - target: {fileID: 7020653825576734767, guid: 677f275b077274004a455e6caa3ed4cb, type: 3}
+      propertyPath: m_onSpawn.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7020653825576734767, guid: 677f275b077274004a455e6caa3ed4cb, type: 3}
+      propertyPath: m_onSpawn.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7020653825576734767, guid: 677f275b077274004a455e6caa3ed4cb, type: 3}
+      propertyPath: m_onSpawn.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 202836190}
+    - target: {fileID: 7020653825576734767, guid: 677f275b077274004a455e6caa3ed4cb, type: 3}
+      propertyPath: m_onSpawn.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7020653825576734767, guid: 677f275b077274004a455e6caa3ed4cb, type: 3}
+      propertyPath: m_onSpawn.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: IncreaseEnemiesAlive
+      objectReference: {fileID: 0}
+    - target: {fileID: 7020653825576734767, guid: 677f275b077274004a455e6caa3ed4cb, type: 3}
+      propertyPath: m_onSpawn.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameManager, Game
+      objectReference: {fileID: 0}
+    - target: {fileID: 7020653825576734767, guid: 677f275b077274004a455e6caa3ed4cb, type: 3}
+      propertyPath: m_onSpawn.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7286455608057442323, guid: 677f275b077274004a455e6caa3ed4cb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -763,6 +892,7 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 202836191}
   - {fileID: 519420032}
   - {fileID: 619394802}
   - {fileID: 1638819917144151588}

@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public class LaserBehavior : MonoBehaviour
+//TODO: destroy laser after it arrives at mouse location (when clicked)
+public class Laser : MonoBehaviour
 {
     #region Private Variables
     

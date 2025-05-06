@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.Serialization;
 
 // TODO: Add enemy attack
+// TODO: Add state machine for Movement translation and Attack
 public class EnemyBehavior : MonoBehaviour
 {
     #region Public Variables
@@ -45,6 +46,7 @@ public class EnemyBehavior : MonoBehaviour
     void Update()
     {
         StartCoroutine(IdleMovement());
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

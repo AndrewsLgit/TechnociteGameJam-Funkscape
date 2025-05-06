@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Serialization;
 
+//TODO: fix issue where enemies stop spawning after a certain amount of time
 public class Spawner : MonoBehaviour
 {
     #region Private Variables
@@ -9,7 +10,6 @@ public class Spawner : MonoBehaviour
     //TODO: modify spawner so that there are around 5 fixed spawn points with a spawn radius around them
     [SerializeField] private Transform _spawnArea;
     [SerializeField] private int _maxEnemies;
-    [SerializeField] private bool _isSpawnerCoroutine = false;
     [SerializeField] private float _spawnInterval = 1.5f;
 
     private SpawnPool _enemyPool;
@@ -34,8 +34,7 @@ public class Spawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_isSpawnerCoroutine) StartCoroutine(SpawnAsteroidCoroutine());
-        else SpawnAsteroid();
+        SpawnAsteroid();
     }
     #endregion
     
@@ -58,24 +57,6 @@ public class Spawner : MonoBehaviour
             enemyInstance.SetActive(true);
             _spawnTimer = 0f;
         }
-    }
-
-    private IEnumerator SpawnAsteroidCoroutine()
-    {
-        yield return new WaitForSeconds(_spawnInterval);
-
-        if (_enemyPool.ActiveProjectileCount >= _maxEnemies) yield break;
-        
-        GameObject enemyInstance = _enemyPool.GetFirstAvailableProjectile();
-        
-        // var enemyBehavior = enemyInstance.GetComponent<EnemyBehavior>();
-        // enemyBehavior.m_onAsteroidDestroyed.AddListener(_gameManager.OnScore);
-        // enemyBehavior.m_onPlayerHit.AddListener(_player.OnDeath);
-        
-        var randomPos = new Vector2(Random.Range(-_spawnArea.localScale.x, _spawnArea.localScale.x),
-            Random.Range(-_spawnArea.localScale.y, _spawnArea.localScale.y));
-        enemyInstance.transform.position = randomPos; //+ (Vector2)_spawnPoint.localScale/2;
-        enemyInstance.SetActive(true);
     }
     
     #endregion

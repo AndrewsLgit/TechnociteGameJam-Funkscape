@@ -1,5 +1,8 @@
 using UnityEngine;
 
+//TODO: Player IS NOT the character that dances, they are 2 different things
+// player will only shoot and take damage
+// the character on the ship will point out spawn points
 public class Player : MonoBehaviour
 {
     

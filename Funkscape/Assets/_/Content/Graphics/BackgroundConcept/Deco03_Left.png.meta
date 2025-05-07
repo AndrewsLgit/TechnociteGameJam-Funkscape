@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 0101e0e84ed7e4cae95b0b717dcd89bb
+guid: 361ae2267018c468597eaed692988572
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1612341405311471424
-    second: BP_Ship_0
+      213: 4523342094753395998
+    second: Deco03_Left_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,23 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BP_Ship_0
+      name: Deco03_Left_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 2816
-        height: 1584
+        x: 334
+        y: 794
+        width: 117
+        height: 790
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 04f8e3037ff206610800000000000000
-      internalID: 1612341405311471424
+      spriteID: e15f8536ba326ce30800000000000000
+      internalID: 4523342094753395998
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: a3c9e10e564a84e12b7de3650eec5d9a
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -134,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      BP_Ship_0: 1612341405311471424
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

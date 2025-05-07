@@ -128,8 +128,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4741644427318452128}
-  - component: {fileID: 2802810624980680982}
-  - component: {fileID: 8568125041157907190}
   - component: {fileID: 3971109348963525549}
   m_Layer: 0
   m_Name: Character
@@ -154,35 +152,6 @@ Transform:
   - {fileID: 700719021375916093}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2802810624980680982
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8778726873945285504}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94aade8bb594246e1b770702ecfdc165, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8568125041157907190
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8778726873945285504}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36d52b63525ba4749a5ea1ea9f75f563, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _weaponPoint: {fileID: 700719021375916093}
-  _projectilePool: {fileID: 0}
-  _maxHealth: 3
-  _maxBlinks: 4
-  _blinkInterval: 1
 --- !u!212 &3971109348963525549
 SpriteRenderer:
   m_ObjectHideFlags: 0

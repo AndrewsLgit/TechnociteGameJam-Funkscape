@@ -1,21 +1,30 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 
+//TODO: set all spawnPoints back to false after every round
 public class Spawner : MonoBehaviour
 {
+    #region Public Variables
+
+    public UnityEvent m_onSpawn;
+
+    #endregion
+    
     #region Private Variables
 
-    //TODO: modify spawner so that there are around 5 fixed spawn points with a spawn radius around them
-    [SerializeField] private Transform _spawnArea;
-    [SerializeField] private int _maxEnemies;
-    [SerializeField] private bool _isSpawnerCoroutine = false;
+    [SerializeField] private Transform[] _spawnPoints;
+    //[SerializeField] private int _maxEnemies;
     [SerializeField] private float _spawnInterval = 1.5f;
+    [SerializeField] private GameObject _enemyPrefab;
+    [SerializeField] private float _spawnRadius = .5f;
 
-    private SpawnPool _enemyPool;
+    private GameManager _gameManager;
+    //private Player _player;
     private float _spawnTimer;
-    //private GameManager _gameManager;
-    private Player _player;
+    private bool[] _hasSpawnedEnemies;
+    private bool _canSpawn = true;
 
     #endregion
     
@@ -24,18 +33,17 @@ public class Spawner : MonoBehaviour
     void Start()
     {
         // _enemyPool = gameObject.GetComponent<SpawnPool>();
-        _enemyPool = gameObject.GetComponentInChildren<SpawnPool>();
-        //_gameManager = FindFirstObjectByType<GameManager>();
-        _player = FindFirstObjectByType<Player>();
+        _gameManager = FindFirstObjectByType<GameManager>();
+        //_player = FindFirstObjectByType<Player>();
         _spawnTimer = 0;
+        _hasSpawnedEnemies = new bool[_spawnPoints.Length];
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_isSpawnerCoroutine) StartCoroutine(SpawnAsteroidCoroutine());
-        else SpawnAsteroid();
+        if (_canSpawn) SpawnAsteroid();
     }
     #endregion
     
@@ -44,39 +52,40 @@ public class Spawner : MonoBehaviour
     private void SpawnAsteroid()
     {
         _spawnTimer += Time.deltaTime;
-        int activeEnemies = _enemyPool.ActiveProjectileCount;
-        if (_spawnTimer >= _spawnInterval && activeEnemies < _maxEnemies)
+        if (!(_spawnTimer >= _spawnInterval)) return;
+        
+        var posOffset = Random.insideUnitCircle * _spawnRadius;
+        var randomIndex = Random.Range(0, _spawnPoints.Length);
+        var spawnPoint = _spawnPoints[randomIndex].position;
+        
+        if (_hasSpawnedEnemies[randomIndex]) return;
+        
+        //GameObject enemyInstance = _enemyPool.GetFirstAvailableProjectile();
+        var enemyInstance = Instantiate(_enemyPrefab, transform);
+        enemyInstance.GetComponent<EnemyBehavior>().m_onEnemyDestoyed.AddListener(_gameManager.IncreaseEnemiesKilled);
+        enemyInstance.transform.position = (Vector2)spawnPoint + posOffset; //+ (Vector2)_spawnPoint.localScale/2;
+        //enemyInstance.SetActive(true);
+        _hasSpawnedEnemies[randomIndex] = true;
+        _spawnTimer = 0f;
+        m_onSpawn.Invoke();
+    }
+    
+    #endregion
+
+    #region Utils
+
+    public void SetCanSpawn(bool canSpawn)
+    {
+        _canSpawn = canSpawn;
+    }
+
+    public void ResetSpawnPoints()
+    {
+        for (int i = 0; i < _hasSpawnedEnemies.Length; i++)
         {
-            GameObject enemyInstance = _enemyPool.GetFirstAvailableProjectile();
-            
-            // var enemyBehavior = enemyInstance.GetComponent<EnemyBehavior>();
-            // enemyBehavior.m_onEnemyDestroyed.AddListener(_gameManager.OnScore);
-            // enemyBehavior.m_onPlayerHit.AddListener(_player.OnDeath);
-            
-            var randomPos = new Vector2(Random.Range(-_spawnArea.localScale.x, _spawnArea.localScale.x), Random.Range(-_spawnArea.localScale.y, _spawnArea.localScale.y));
-            enemyInstance.transform.position = randomPos; //+ (Vector2)_spawnPoint.localScale/2;
-            enemyInstance.SetActive(true);
-            _spawnTimer = 0f;
+            _hasSpawnedEnemies[i] = false;
         }
     }
 
-    private IEnumerator SpawnAsteroidCoroutine()
-    {
-        yield return new WaitForSeconds(_spawnInterval);
-
-        if (_enemyPool.ActiveProjectileCount >= _maxEnemies) yield break;
-        
-        GameObject enemyInstance = _enemyPool.GetFirstAvailableProjectile();
-        
-        // var enemyBehavior = enemyInstance.GetComponent<EnemyBehavior>();
-        // enemyBehavior.m_onAsteroidDestroyed.AddListener(_gameManager.OnScore);
-        // enemyBehavior.m_onPlayerHit.AddListener(_player.OnDeath);
-        
-        var randomPos = new Vector2(Random.Range(-_spawnArea.localScale.x, _spawnArea.localScale.x),
-            Random.Range(-_spawnArea.localScale.y, _spawnArea.localScale.y));
-        enemyInstance.transform.position = randomPos; //+ (Vector2)_spawnPoint.localScale/2;
-        enemyInstance.SetActive(true);
-    }
-    
     #endregion
 }

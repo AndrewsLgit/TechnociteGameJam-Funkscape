@@ -24,6 +24,7 @@ public class EnemyProjectile : MonoBehaviour
     private float _70percentTime;
     private float _10percentTime;
     private float _currentTweenTime = 0f;
+    private Vector2 _startScale;
     private bool _canBlink;
     private int _maxBlinkNb = 4;
     private Player _player;
@@ -36,6 +37,7 @@ public class EnemyProjectile : MonoBehaviour
     {
         _70percentTime= _timeToMaxSize * 0.7f;
         _10percentTime = _timeToMaxSize * 0.1f;
+        _startScale = transform.localScale;
         _canBlink = true;
         _player = FindFirstObjectByType<Player>();
         m_onBlink.AddListener(_player.StartRepeater);
@@ -61,18 +63,18 @@ public class EnemyProjectile : MonoBehaviour
         // }
     }
 
-    // private void OnEnable()
-    // {
-    //     Invoke(nameof(Deactivate), _timeToDestroy);
-    //     _isBlinking = false;
-    //     _70percentTime= _timeToMaxSize * 0.7f;
-    //     _10percentTime = _timeToMaxSize * 0.1f;
-    //     _player = FindFirstObjectByType<Player>();
-    //     m_onBlink.AddListener(_player.StartBlinkingCoroutine);
-    //     DOTween.Init(recycleAllByDefault: true);
-    //     IncreaseSize();
-    //
-    // }
+    private void OnEnable()
+    {
+        Invoke(nameof(Deactivate), _timeToDestroy);
+        _70percentTime= _timeToMaxSize * 0.7f;
+        _10percentTime = _timeToMaxSize * 0.1f;
+        _canBlink = true;
+        _player = FindFirstObjectByType<Player>();
+        m_onBlink.AddListener(_player.StartRepeater);
+        DOTween.Init(recycleAllByDefault: true);
+        IncreaseSize();
+    
+    }
 
     private void OnDisable()
     {
@@ -87,7 +89,7 @@ public class EnemyProjectile : MonoBehaviour
     private void IncreaseSize()
     {
         var tween = transform.DOScale(_maxSize, _timeToMaxSize)
-            .SetEase(Ease.OutBack);
+            .SetEase(Ease.OutCirc);
         
         // tween.OnUpdate(() => _isBlinking = tween.position >= _70percentTime);
         tween.OnUpdate(() =>
@@ -111,6 +113,7 @@ public class EnemyProjectile : MonoBehaviour
     private void Deactivate()
     {
         gameObject.SetActive(false);
+        transform.localScale = _startScale;
     }
 
     #endregion

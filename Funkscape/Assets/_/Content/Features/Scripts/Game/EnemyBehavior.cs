@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,6 +8,8 @@ using UnityEngine.Serialization;
 
 // TODO: Add enemy attack
 // TODO: Add state machine for Movement translation and Attack
+// TODO: Change enemy color when attacking
+// 
 public class EnemyBehavior : MonoBehaviour
 {
     #region Public Variables
@@ -24,6 +27,7 @@ public class EnemyBehavior : MonoBehaviour
     private int _thrust = 5;
     private bool _movedRight = false;
     private bool _movedUp = false;
+    private bool _attacking = false;
     private int _idleCycleNb = 0;
 
     [SerializeField] private Vector2 _idleMoveDistance = new Vector2(0.6f, 0.3f);
@@ -40,7 +44,7 @@ public class EnemyBehavior : MonoBehaviour
     {
         DOTween.Init(recycleAllByDefault: true);
         _rigidbody = gameObject.GetComponent<Rigidbody2D>();
-        //_projectilePool = GetComponentInParent<SpawnPool();
+        _projectilePool = FindObjectsByType<SpawnPool>(sortMode: FindObjectsSortMode.None).FirstOrDefault(x => x.CompareTag("EnemyPool"));
         _player = FindFirstObjectByType<Player>();
     }
 
@@ -94,10 +98,16 @@ public class EnemyBehavior : MonoBehaviour
         {
             case true:
                 yield return transform.DOMoveX(transform.localPosition.x - _idleMoveDistance.x, _idleMoveTime)
-                    .OnComplete(() => _movedRight = false);
+                    //.SetEase(Ease.InCirc)
+                    .OnComplete(() =>
+                    {
+                        _movedRight = false;
+                        if (!_attacking) Attack();
+                    });
                 break;
             case false:
-                transform.DOMoveX(transform.localPosition.x + _idleMoveDistance.x, _idleMoveTime)
+                yield return transform.DOMoveX(transform.localPosition.x + _idleMoveDistance.x, _idleMoveTime)
+                    //.SetEase(Ease.InCirc)
                     .OnComplete(() => _movedRight = true);
                 break;
         }
@@ -108,17 +118,24 @@ public class EnemyBehavior : MonoBehaviour
         GameObject projectile = _projectilePool.GetFirstAvailableProjectile();
         //projectile.GetComponent<EnemyProjectile>().m_onBlink.AddListener();
         projectile.transform.position = _weaponPoint.position;
-        projectile.transform.rotation = _weaponPoint.rotation;
+        //projectile.transform.rotation = _weaponPoint.rotation;
         //laser.transform.rotation = transform.rotation;
         projectile.SetActive(true);
+        _attacking = true;
         //Debug.Log($"Shot {laser.name}");
     }
 
-    private void Deactivate()
+    private void Randomizer()
+    {
+        
+    }
+
+    public void Deactivate()
     {
         m_onEnemyDestoyed.Invoke();
         m_onEnemyDestoyed.RemoveAllListeners();
         gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 
     #endregion

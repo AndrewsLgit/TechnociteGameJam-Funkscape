@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public interface IPlayerController
 {
     public Vector2 MousePosition { get; }
+    public Vector2 MouseClickPosition { get; }
     public void SubscribeToAttackEvent(Action attackAction);
     public void UnsubscribeFromAttackEvent(Action attackAction);
 }
@@ -15,6 +16,7 @@ public class PlayerController : MonoBehaviour,  IPlayerController, GameInputSyst
     #region Private variables
 
     private Vector2 _mousePosition;
+    private Vector2 _mouseClickPosition;
     private Action _onAttackEvent;
     private GameInputSystem _gameInputSystem;
 
@@ -23,6 +25,7 @@ public class PlayerController : MonoBehaviour,  IPlayerController, GameInputSyst
     #region Public variables
     
     public Vector2 MousePosition => _mousePosition;
+    public Vector2 MouseClickPosition => _mouseClickPosition;
 
     #endregion
     
@@ -57,7 +60,11 @@ public class PlayerController : MonoBehaviour,  IPlayerController, GameInputSyst
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.performed) _onAttackEvent?.Invoke();
+        if (context.performed)
+        {
+            _mouseClickPosition = _gameInputSystem.Player.Look.ReadValue<Vector2>();
+            _onAttackEvent?.Invoke();
+        }
     }
 
     public void OnMenu(InputAction.CallbackContext context)

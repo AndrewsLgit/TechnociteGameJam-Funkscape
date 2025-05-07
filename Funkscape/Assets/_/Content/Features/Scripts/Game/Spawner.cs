@@ -17,7 +17,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private Transform[] _spawnPoints;
     //[SerializeField] private int _maxEnemies;
     [SerializeField] private float _spawnInterval = 1.5f;
-    [SerializeField] private GameObject _enemyPrefab;
+    [SerializeField] private EnemyBehavior _enemyPrefab;
     [SerializeField] private float _spawnRadius = .5f;
 
     private GameManager _gameManager;
@@ -62,7 +62,8 @@ public class Spawner : MonoBehaviour
         
         //GameObject enemyInstance = _enemyPool.GetFirstAvailableProjectile();
         var enemyInstance = Instantiate(_enemyPrefab, transform);
-        enemyInstance.GetComponent<EnemyBehavior>().m_onEnemyDestoyed.AddListener(_gameManager.IncreaseEnemiesKilled);
+        //todo use enemy behaviour
+        enemyInstance.m_onEnemyDestoyed.AddListener(_gameManager.IncreaseEnemiesKilled);
         enemyInstance.transform.position = (Vector2)spawnPoint + posOffset; //+ (Vector2)_spawnPoint.localScale/2;
         //enemyInstance.SetActive(true);
         _hasSpawnedEnemies[randomIndex] = true;

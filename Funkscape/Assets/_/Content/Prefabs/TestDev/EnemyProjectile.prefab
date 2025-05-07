@@ -45,8 +45,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e361a17ee10444d7b9146d5b1370f27e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_onBlink:
+    m_PersistentCalls:
+      m_Calls: []
   _maxSize: 8
-  _timeToMaxSize: 4
+  _timeToMaxSize: 3
   _timeToDestroy: 3
 --- !u!212 &5879095642062694088
 SpriteRenderer:

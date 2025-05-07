@@ -20,6 +20,7 @@ public class EnemyBehavior : MonoBehaviour
     //private Transform _playerTransform;
     private Rigidbody2D _rigidbody;
     private Sequence _tweenSequence;
+    private Player _player;
     private int _thrust = 5;
     private bool _movedRight = false;
     private bool _movedUp = false;
@@ -39,7 +40,8 @@ public class EnemyBehavior : MonoBehaviour
     {
         DOTween.Init(recycleAllByDefault: true);
         _rigidbody = gameObject.GetComponent<Rigidbody2D>();
-        _projectilePool = FindFirstObjectByType<SpawnPool>();
+        //_projectilePool = GetComponentInParent<SpawnPool();
+        _player = FindFirstObjectByType<Player>();
     }
 
     // Update is called once per frame
@@ -104,6 +106,7 @@ public class EnemyBehavior : MonoBehaviour
     private void Attack()
     {
         GameObject projectile = _projectilePool.GetFirstAvailableProjectile();
+        //projectile.GetComponent<EnemyProjectile>().m_onBlink.AddListener();
         projectile.transform.position = _weaponPoint.position;
         projectile.transform.rotation = _weaponPoint.rotation;
         //laser.transform.rotation = transform.rotation;

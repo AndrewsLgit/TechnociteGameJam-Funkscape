@@ -12,7 +12,7 @@ public class RoundSystemSO : ScriptableObject
 
     private void OnEnable()
     {
-        _currentRound = 1;
+        _currentRound = 0;
         _maxEnemies = 2;
     }
 

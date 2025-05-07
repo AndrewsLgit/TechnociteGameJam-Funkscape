@@ -1,6 +1,6 @@
 using UnityEngine;
 
-//TODO: destroy laser after it arrives at mouse location (when clicked)
+//TODO: make laser from big to small on mouse click location
 public class Laser : MonoBehaviour
 {
     #region Private Variables
@@ -46,6 +46,11 @@ public class Laser : MonoBehaviour
 
     #region Main Methods
 
+    // public void MoveToPos(Vector2 point)
+    // {
+    //     var direction = point - (Vector2)transform.position;
+    //     transform.Translate(direction * (_thrust * Time.deltaTime));
+    // }
     private void Move()
     {
         transform.Translate(Vector3.up * (Time.deltaTime * _thrust));

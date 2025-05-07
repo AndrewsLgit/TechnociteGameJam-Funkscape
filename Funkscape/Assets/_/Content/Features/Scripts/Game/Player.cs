@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -11,9 +12,15 @@ public class Player : MonoBehaviour
 {
     
     #region Private Variables
-    
+
+    [SerializeField] private GameObject _crosshair;
     [SerializeField] private Transform _weaponPoint;
     [SerializeField] private SpawnPool _projectilePool;
+    
+    [SerializeField] private GameObject _windowHp3;
+    [SerializeField] private GameObject _windowHp2;
+    [SerializeField] private GameObject _windowHp1;
+
     [SerializeField] private int _maxHealth = 3;
     [SerializeField] private int _maxBlinks = 4;
     [SerializeField] private float _blinkInterval = 1f;
@@ -23,6 +30,7 @@ public class Player : MonoBehaviour
     private Repeater _repeater;
     private int _blinkNb;
     private int _currentPlayerHealth;
+    private Vector2 _ray2D;
 
     #endregion
     
@@ -31,7 +39,10 @@ public class Player : MonoBehaviour
     void Start()
     {
         _playerController = GetComponent<IPlayerController>();
-        _playerController.SubscribeToAttackEvent(LaserAttack);
+        _playerController.SubscribeToAttackEvent(Shoot);
+        _windowHp3.SetActive(true);
+        _windowHp2.SetActive(false);
+        _windowHp1.SetActive(false);
 
         _currentPlayerHealth = _maxHealth;
         _blinkNb = 0;
@@ -60,10 +71,11 @@ public class Player : MonoBehaviour
 
     private void LookAtPosition(Vector2 targetPos)
     {
-        Vector2 direction = targetPos - (Vector2)transform.position;
-        var playerRotation = Quaternion.LookRotation(Vector3.forward, direction);
+        _crosshair.transform.position = targetPos;
+        //Vector2 direction = targetPos - (Vector2)transform.position;
+        //var playerRotation = Quaternion.LookRotation(Vector3.forward, direction);
         //transform.rotation = playerRotation;
-        _weaponPoint.rotation = playerRotation;
+        //_weaponPoint.rotation = playerRotation;
     }
 
     private void LaserAttack()
@@ -83,6 +95,17 @@ public class Player : MonoBehaviour
         //Debug.Log($"Shot {laser.name}");
     }
 
+    private void Shoot()
+    {
+        var hit = Physics2D.Raycast(GetMouseClickPosition(), Vector2.zero);
+        //Debug.Log($"Ray info: {_ray2D}");
+        if (hit.collider == null) return;
+        if (!hit.transform.CompareTag("Enemy")) return;
+        
+        hit.collider.gameObject.GetComponent<EnemyBehavior>().Deactivate();
+        Debug.Log($"Enemy hit {hit.transform.name}");
+    }
+
     private void Parry()
     {
         
@@ -97,6 +120,26 @@ public class Player : MonoBehaviour
     {
         _currentPlayerHealth--;
         _blinkNb = 0;
+        _repeater.StopRepeater();
+        switch (_currentPlayerHealth)
+        {
+            case 3:
+                _windowHp3.SetActive(true);
+                _windowHp2.SetActive(false);
+                _windowHp1.SetActive(false);
+                break;
+            case 2:
+                _windowHp2.SetActive(true);
+                break;
+            case 1:
+                _windowHp1.SetActive(true);
+                break;
+            case 0:
+                OnDeath();
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
         //_repeater.StopRepeater();
         Debug.Log($"Lost health! Current health: {_currentPlayerHealth}");
         if (_currentPlayerHealth <= 0) OnDeath();

@@ -247,7 +247,12 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Viseur_0: 2448918578965265830
+      Viseur_1: 2787601704101410828
+      Viseur_2: -4755992678092368792
+      Viseur_3: -6786878749540830709
+      Viseur_4: 8708400637552102350
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

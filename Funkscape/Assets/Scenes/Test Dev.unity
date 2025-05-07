@@ -902,10 +902,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyProjectile
       objectReference: {fileID: 0}
-    - target: {fileID: 7556157930715961654, guid: a7b2b2d8c0b7c459cb050df76568b163, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -915,6 +911,7 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1646600912}
   - {fileID: 202836191}
   - {fileID: 519420032}
   - {fileID: 619394802}
@@ -924,4 +921,3 @@ SceneRoots:
   - {fileID: 506617479811423162}
   - {fileID: 969760030545595309}
   - {fileID: 5470738301937450277}
-  - {fileID: 1646600912}

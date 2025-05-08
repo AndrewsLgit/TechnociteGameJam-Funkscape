@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8213488812415769856}
   - component: {fileID: 6393785004483369109}
+  - component: {fileID: 5227906852000753566}
   - component: {fileID: 7672870468098200731}
   - component: {fileID: 1613406871873456027}
   - component: {fileID: 2014940605770764295}
@@ -86,6 +87,22 @@ MonoBehaviour:
   _idleMoveTime: 0.5
   _weaponPoint: {fileID: 2838783765681316963}
   _projectilePool: {fileID: 0}
+  _roundSystemSO: {fileID: 11400000, guid: 53e6f2444606543cb9165cb9c80a9c96, type: 2}
+--- !u!114 &5227906852000753566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8051368320180246775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69efbcb4a11bc486e8517faeada8dbb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _offset: 0
+  isMovingRight: 0
+  isMovingUp: 0
 --- !u!212 &7672870468098200731
 SpriteRenderer:
   m_ObjectHideFlags: 0

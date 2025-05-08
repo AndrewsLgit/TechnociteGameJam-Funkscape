@@ -140,6 +140,7 @@ GameObject:
   m_Component:
   - component: {fileID: 202836191}
   - component: {fileID: 202836190}
+  - component: {fileID: 202836192}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -205,6 +206,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   _roundSystemSO: {fileID: 11400000, guid: 53e6f2444606543cb9165cb9c80a9c96, type: 2}
+  _scoreText: {fileID: 0}
+  _highScoreText: {fileID: 0}
 --- !u!4 &202836191
 Transform:
   m_ObjectHideFlags: 0
@@ -220,6 +223,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &202836192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 202836189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6e1d4f62231b495284fc15dd4a9529b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OnStartupEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnRepeat:
+    m_PersistentCalls:
+      m_Calls: []
+  m_startupTime: 0
+  m_repeatTime: 1
+  m_repeatCount: 0
+  m_loopForever: 0
 --- !u!1 &485168320 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8051368320180246775, guid: a81d21810ebec4254b210a819aa05c8c, type: 3}
@@ -538,6 +563,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2100033744 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5736488186607496880, guid: 648ca0c6c8872492f9a3f26d86c318d1, type: 3}
+  m_PrefabInstance: {fileID: 3345428431982830710}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2126075925 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2359974238653657824, guid: 677f275b077274004a455e6caa3ed4cb, type: 3}
@@ -888,12 +918,48 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 485168320}
     - target: {fileID: 7020653825576734767, guid: 677f275b077274004a455e6caa3ed4cb, type: 3}
+      propertyPath: _captainArm
+      value: 
+      objectReference: {fileID: 2100033744}
+    - target: {fileID: 7020653825576734767, guid: 677f275b077274004a455e6caa3ed4cb, type: 3}
+      propertyPath: _roundSystem
+      value: 
+      objectReference: {fileID: 11400000, guid: 53e6f2444606543cb9165cb9c80a9c96, type: 2}
+    - target: {fileID: 7020653825576734767, guid: 677f275b077274004a455e6caa3ed4cb, type: 3}
+      propertyPath: m_onSpawn.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7020653825576734767, guid: 677f275b077274004a455e6caa3ed4cb, type: 3}
+      propertyPath: m_onSpawn.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7020653825576734767, guid: 677f275b077274004a455e6caa3ed4cb, type: 3}
       propertyPath: m_onSpawn.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 202836190}
     - target: {fileID: 7020653825576734767, guid: 677f275b077274004a455e6caa3ed4cb, type: 3}
+      propertyPath: m_onSpawn.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 202836190}
+    - target: {fileID: 7020653825576734767, guid: 677f275b077274004a455e6caa3ed4cb, type: 3}
+      propertyPath: m_onSpawn.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7020653825576734767, guid: 677f275b077274004a455e6caa3ed4cb, type: 3}
       propertyPath: m_onSpawn.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: IncreaseEnemiesAlive
+      objectReference: {fileID: 0}
+    - target: {fileID: 7020653825576734767, guid: 677f275b077274004a455e6caa3ed4cb, type: 3}
+      propertyPath: m_onSpawn.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: GetSpawnedEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 7020653825576734767, guid: 677f275b077274004a455e6caa3ed4cb, type: 3}
+      propertyPath: m_onSpawn.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: GameManager, Game
+      objectReference: {fileID: 0}
+    - target: {fileID: 7020653825576734767, guid: 677f275b077274004a455e6caa3ed4cb, type: 3}
+      propertyPath: m_onSpawn.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: EnemyBehavior, Game
       objectReference: {fileID: 0}
     - target: {fileID: 7286455608057442323, guid: 677f275b077274004a455e6caa3ed4cb, type: 3}
       propertyPath: m_LocalPosition.x

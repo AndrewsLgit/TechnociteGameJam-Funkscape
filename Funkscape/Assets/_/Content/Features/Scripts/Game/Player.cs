@@ -134,11 +134,13 @@ public class Player : MonoBehaviour
             case 1:
                 _windowHp1.SetActive(true);
                 break;
-            case 0:
-                OnDeath();
-                break;
+            // case 0:
+            //     OnDeath();
+            //     break;
             default:
-                throw new ArgumentOutOfRangeException();
+                //throw new ArgumentOutOfRangeException();
+            OnDeath();
+                break;
         }
         //_repeater.StopRepeater();
         Debug.Log($"Lost health! Current health: {_currentPlayerHealth}");

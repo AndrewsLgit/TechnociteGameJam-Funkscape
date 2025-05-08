@@ -24,6 +24,7 @@ public class EnemyBehavior : MonoBehaviour
     private Rigidbody2D _rigidbody;
     private Sequence _tweenSequence;
     private Player _player;
+    private GameManager _gameManager;
     private int _thrust = 5;
     private bool _movedRight = false;
     private bool _movedUp = false;
@@ -35,6 +36,7 @@ public class EnemyBehavior : MonoBehaviour
     [SerializeField] private float _idleMoveTime = 0.8f;
     [SerializeField] private Transform _weaponPoint;
     [SerializeField] private SpawnPool _projectilePool;
+    [SerializeField] private RoundSystemSO _roundSystemSO;
     
     #endregion
 
@@ -47,6 +49,7 @@ public class EnemyBehavior : MonoBehaviour
         _rigidbody = gameObject.GetComponent<Rigidbody2D>();
         _projectilePool = FindObjectsByType<SpawnPool>(sortMode: FindObjectsSortMode.None).FirstOrDefault(x => x.CompareTag("EnemyPool"));
         _player = FindFirstObjectByType<Player>();
+        _gameManager = FindFirstObjectByType<GameManager>();
     }
 
     // Update is called once per frame
@@ -123,6 +126,7 @@ public class EnemyBehavior : MonoBehaviour
         //laser.transform.rotation = transform.rotation;
         projectile.SetActive(true);
         _attacking = true;
+        
         //Debug.Log($"Shot {laser.name}");
     }
 
@@ -138,7 +142,9 @@ public class EnemyBehavior : MonoBehaviour
 
     public void Deactivate()
     {
+        _gameManager.KillEnemy(this);
         m_onEnemyDestoyed.Invoke();
+        
         m_onEnemyDestoyed.RemoveAllListeners();
         gameObject.SetActive(false);
         

@@ -2,6 +2,9 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 
+// todo: add repeater for captain's dance timing
+
+// after 5 rounds decrease action interval
 public class GameManager : MonoBehaviour
 {
 

@@ -29,6 +29,7 @@ public class EnemyBehavior : MonoBehaviour
     private bool _movedUp = false;
     private bool _attacking = false;
     private int _idleCycleNb = 0;
+    private int _spawnIndex = 0;
 
     [SerializeField] private Vector2 _idleMoveDistance = new Vector2(0.6f, 0.3f);
     [SerializeField] private float _idleMoveTime = 0.8f;
@@ -125,6 +126,11 @@ public class EnemyBehavior : MonoBehaviour
         //Debug.Log($"Shot {laser.name}");
     }
 
+    public void SetSpawnIndex(int spawnIndex)
+    {
+        _spawnIndex = spawnIndex;
+    }
+
     private void Randomizer()
     {
         
@@ -135,6 +141,7 @@ public class EnemyBehavior : MonoBehaviour
         m_onEnemyDestoyed.Invoke();
         m_onEnemyDestoyed.RemoveAllListeners();
         gameObject.SetActive(false);
+        
         Destroy(gameObject);
     }
 

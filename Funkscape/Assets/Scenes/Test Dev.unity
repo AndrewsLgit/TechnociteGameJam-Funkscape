@@ -802,6 +802,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2188934081504186, guid: 648ca0c6c8872492f9a3f26d86c318d1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 700719021375916093, guid: 648ca0c6c8872492f9a3f26d86c318d1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.42
+      objectReference: {fileID: 0}
     - target: {fileID: 4741644427318452128, guid: 648ca0c6c8872492f9a3f26d86c318d1, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.33
@@ -845,6 +853,10 @@ PrefabInstance:
     - target: {fileID: 8778726873945285504, guid: 648ca0c6c8872492f9a3f26d86c318d1, type: 3}
       propertyPath: m_Name
       value: Character
+      objectReference: {fileID: 0}
+    - target: {fileID: 8778726873945285504, guid: 648ca0c6c8872492f9a3f26d86c318d1, type: 3}
+      propertyPath: m_TagString
+      value: Captain
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

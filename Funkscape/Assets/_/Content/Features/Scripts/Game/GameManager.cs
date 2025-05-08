@@ -59,17 +59,17 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Main Methods
-
-    public void RestartGame()
-    {
-        
-    }
-
+    
     public void StartGame()
     {
         
     }
 
+    public void RestartGame()
+    {
+        
+    }
+    
     public void PauseGame()
     {
         

@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
     private IPlayerController _playerController;
     private Camera _camera;
     private Repeater _repeater;
+    private GameManager _gameManager;
     private int _blinkNb;
     private int _currentPlayerHealth;
     private Vector2 _ray2D;
@@ -38,8 +39,11 @@ public class Player : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        _gameManager = FindFirstObjectByType<GameManager>();
+
         _playerController = GetComponent<IPlayerController>();
         _playerController.SubscribeToAttackEvent(Shoot);
+        _playerController.SubscribeToEscapeEvent(_gameManager.PauseGame);
         _windowHp3.SetActive(true);
         _windowHp2.SetActive(false);
         _windowHp1.SetActive(false);
@@ -61,7 +65,8 @@ public class Player : MonoBehaviour
 
     private void OnDisable()
     {
-        _playerController.UnsubscribeFromAttackEvent(LaserAttack);
+        _playerController.UnsubscribeFromAttackEvent(Shoot);
+        _playerController.UnsubscribeFromEscapeEvent(_gameManager.PauseGame);
         Debug.Log($"Player death | Game object active: {gameObject.activeSelf}");
     }
 

@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: 3d112f8e7c8d3334699a6a69b6946c9d
+guid: c1602ce6898834b7e8369c0f51600132
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3332649702321836017
-    second: Exclamation-Point_0
-  - first:
-      213: -7126028007488707431
-    second: Exclamation-Point_1
+      213: -3125073021144458721
+    second: CommandScreen_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -103,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Exclamation-Point_0
+      name: CommandScreen_0
       rect:
         serializedVersion: 2
-        x: 120
-        y: 112
-        width: 15
-        height: 60
+        x: 0
+        y: 0
+        width: 2560
+        height: 1440
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -118,30 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f00bb4cb0cc00c1d0800000000000000
-      internalID: -3332649702321836017
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Exclamation-Point_1
-      rect:
-        serializedVersion: 2
-        x: 120
-        y: 84
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 994a62258434b1d90800000000000000
-      internalID: -7126028007488707431
+      spriteID: f1a178505a281a4d0800000000000000
+      internalID: -3125073021144458721
       vertices: []
       indices: 
       edges: []
@@ -159,9 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Exclamation-Point_0: -3332649702321836017
-      Exclamation-Point_1: -7126028007488707431
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

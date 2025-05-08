@@ -11,6 +11,8 @@ public interface IPlayerController
     public void SubscribeToParryEvent(Action parryAction);
     public void UnsubscribeFromAttackEvent(Action attackAction);
     public void UnsubscribeFromParryEvent(Action parryAction);
+    public void SubscribeToEscapeEvent(Action escapeAction);
+    public void UnsubscribeFromEscapeEvent(Action escapeAction);
 }
 
 public class PlayerController : MonoBehaviour,  IPlayerController, GameInputSystem.IPlayerActions
@@ -21,6 +23,7 @@ public class PlayerController : MonoBehaviour,  IPlayerController, GameInputSyst
     private Vector2 _mouseClickPosition;
     private Action _onAttackEvent;
     private Action _onParryEvent;
+    private Action _onEscapeEvent;
     private GameInputSystem _gameInputSystem;
 
     #endregion
@@ -80,6 +83,7 @@ public class PlayerController : MonoBehaviour,  IPlayerController, GameInputSyst
 
     public void OnMenu(InputAction.CallbackContext context)
     {
+        if (context.performed) _onEscapeEvent?.Invoke();
     }
     
     #endregion
@@ -96,6 +100,11 @@ public class PlayerController : MonoBehaviour,  IPlayerController, GameInputSyst
         _onParryEvent += parryAction;
     }
 
+    public void SubscribeToEscapeEvent(Action escapeAction)
+    {
+        _onEscapeEvent += escapeAction;
+    }
+
     public void UnsubscribeFromAttackEvent(Action attackAction)
     {
         _onAttackEvent -= attackAction;
@@ -106,5 +115,10 @@ public class PlayerController : MonoBehaviour,  IPlayerController, GameInputSyst
         _onParryEvent -= parryAction;
     }
 
+    public void UnsubscribeFromEscapeEvent(Action escapeAction)
+    {
+        _onEscapeEvent -= escapeAction;
+    }
+    
     #endregion
 }

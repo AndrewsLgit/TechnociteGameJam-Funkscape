@@ -23,7 +23,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private RoundSystemSO _roundSystemSO;
     [SerializeField] private TextMeshProUGUI _scoreText;
     [SerializeField] private TextMeshProUGUI _highScoreText;
+    [SerializeField] private GameObject _pauseMenu = null;
+    [SerializeField] private GameObject _commandsMenu = null;
+    [SerializeField] private GameObject _gameOverMenu = null;
+
     private Repeater _repeater;
+    private bool _isPaused;
+    private bool _isFirstRound;
     private int _enemiesAlive;
     private int _enemiesKilled;
     private int _maxEnemies;
@@ -41,6 +47,8 @@ public class GameManager : MonoBehaviour
     {
         _enemiesAlive = 0;
         _enemiesKilled = 0;
+        _isPaused = true;
+        _isFirstRound = true;
         
         _repeater = GetComponent<Repeater>();
         _repeater.m_loopForever = true;
@@ -52,6 +60,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_isPaused || _isFirstRound) return;
         _maxEnemies = _roundSystemSO.GetMaxEnemies();
         _hasAnyoneShot = _roundSystemSO.m_hasAnyoneShot;
     }
@@ -60,19 +69,36 @@ public class GameManager : MonoBehaviour
 
     #region Main Methods
     
-    public void StartGame()
+    public void ResumeGame()
     {
-        
+        _isPaused = false;
+        Time.timeScale = 1;
+        _pauseMenu.SetActive(_isPaused );
     }
 
     public void RestartGame()
     {
         
     }
+
+    private void CommandScreen()
+    {
+        
+    }
     
     public void PauseGame()
     {
-        
+        if (_isFirstRound)
+        {
+            _isFirstRound = false;
+            _isPaused = _isFirstRound;
+            Time.timeScale = 1;
+            _commandsMenu.SetActive(false);
+            return;
+        }
+        _isPaused = !_isPaused;
+        Time.timeScale = _isPaused ? 0 : 1;
+        _pauseMenu.SetActive(_isPaused);
     }
 
     public void IncreaseEnemiesAlive()
@@ -81,10 +107,10 @@ public class GameManager : MonoBehaviour
         if (_enemiesAlive == _roundSystemSO.GetMaxEnemies()) m_disableEnemySpawn.Invoke();
     }
     
-    public void OnGUI()
-    {
-        GUILayout.Button(" " + _roundSystemSO.GetMaxEnemies());
-    }
+    // public void OnGUI()
+    // {
+    //     GUILayout.Button(" " + _roundSystemSO.GetMaxEnemies());
+    // }
 
     public void IncreaseEnemiesKilled()
     {

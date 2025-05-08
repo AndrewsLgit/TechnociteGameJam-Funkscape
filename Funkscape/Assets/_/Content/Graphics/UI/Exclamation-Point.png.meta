@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: e9ce49c65b47c4a46981a1252389a239
+guid: 3d112f8e7c8d3334699a6a69b6946c9d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2923484256072202240
-    second: Main MenuREF_0
+      213: -3332649702321836017
+    second: Exclamation-Point_0
+  - first:
+      213: -7126028007488707431
+    second: Exclamation-Point_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +103,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Main MenuREF_0
+      name: Exclamation-Point_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 2560
-        height: 1440
+        x: 120
+        y: 112
+        width: 15
+        height: 60
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +118,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 00871ad017d429820800000000000000
-      internalID: 2923484256072202240
+      spriteID: f00bb4cb0cc00c1d0800000000000000
+      internalID: -3332649702321836017
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Exclamation-Point_1
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 84
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 994a62258434b1d90800000000000000
+      internalID: -7126028007488707431
       vertices: []
       indices: 
       edges: []
@@ -134,8 +159,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Main MenuREF_0: 2923484256072202240
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

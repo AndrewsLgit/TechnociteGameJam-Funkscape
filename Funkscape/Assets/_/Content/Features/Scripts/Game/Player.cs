@@ -118,6 +118,7 @@ public class Player : MonoBehaviour
 
     private void OnDeath()
     {
+        _gameManager.GameOver();
         gameObject.SetActive(false);
     }
 

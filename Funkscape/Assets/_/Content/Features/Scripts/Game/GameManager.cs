@@ -1,7 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 // todo: add repeater for captain's dance timing
@@ -21,11 +23,17 @@ public class GameManager : MonoBehaviour
     #region Private Variables
     
     [SerializeField] private RoundSystemSO _roundSystemSO;
+    
     [SerializeField] private TextMeshProUGUI _scoreText;
     [SerializeField] private TextMeshProUGUI _highScoreText;
+    [SerializeField] private TextMeshProUGUI _breakTimeText;
+    [SerializeField] private TextMeshProUGUI _breakTimeNb;
+    
     [SerializeField] private GameObject _pauseMenu = null;
     [SerializeField] private GameObject _commandsMenu = null;
     [SerializeField] private GameObject _gameOverMenu = null;
+
+    [SerializeField] private float _breakTimeCounter;
 
     private Repeater _repeater;
     private bool _isPaused;
@@ -48,7 +56,8 @@ public class GameManager : MonoBehaviour
         _enemiesAlive = 0;
         _enemiesKilled = 0;
         _isPaused = true;
-        _isFirstRound = true;
+        CommandScreen();
+        SetScoreTexts();
         
         _repeater = GetComponent<Repeater>();
         _repeater.m_loopForever = true;
@@ -78,12 +87,20 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        
+        SceneManager.LoadSceneAsync(1);
+    }
+
+    public void GameOver()
+    {
+        Time.timeScale = 1;
+        _gameOverMenu.SetActive(true);
     }
 
     private void CommandScreen()
     {
-        
+        _isFirstRound = true;
+        _commandsMenu.SetActive(_isFirstRound);
+        Time.timeScale = 0;
     }
     
     public void PauseGame()
@@ -116,6 +133,7 @@ public class GameManager : MonoBehaviour
     {
         _enemiesKilled++;
         if (_enemiesKilled != _roundSystemSO.GetMaxEnemies()) return;
+        StartCoroutine(PauseGame(3f));
         _roundSystemSO.IncreaseRound();
         m_resetSpawnPoints.Invoke();
         _spawnedEnemies.Clear();
@@ -136,6 +154,12 @@ public class GameManager : MonoBehaviour
 
     #region Utils
 
+    private void SetScoreTexts()
+    {
+        _scoreText.text = $"Round {_roundSystemSO.GetCurrentRound()}";
+        _highScoreText.text = $"HighScore: {_roundSystemSO.m_highScore}";
+    }
+
     private void Counter()
     {
         Debug.Log($"Counter triggered with interval: {_counterInterval}");
@@ -152,6 +176,40 @@ public class GameManager : MonoBehaviour
         
         Debug.Log($"Enemy {_spawnedEnemies[index].name} was killed");
         _spawnedEnemies.RemoveAt(index);
+    }
+
+    private void StartBreakTimer()
+    {
+        if(_breakTimeCounter > 0 ) _breakTimeCounter -= Time.unscaledDeltaTime;
+        else
+        {
+            _breakTimeCounter = 0;
+        }
+    }
+    
+    private IEnumerator PauseGame(float pauseTime){
+        SetBreakTimerText(true);
+        Debug.Log ("Inside PauseGame()");
+        Time.timeScale = 0f;
+        var timer = 4f;
+        float pauseEndTime = Time.realtimeSinceStartup + pauseTime;
+        while (Time.realtimeSinceStartup < pauseEndTime)
+        {
+            _breakTimeNb.text = Mathf.FloorToInt(timer).ToString();
+            timer -= Time.unscaledDeltaTime;
+            yield return 0;
+        }
+        Time.timeScale = 1f;
+        Debug.Log("Done with my pause");
+        SetBreakTimerText(false);
+    }
+
+    private void SetBreakTimerText(bool active)
+    {
+        
+        _breakTimeText.gameObject.SetActive(active);
+        _breakTimeNb.gameObject.SetActive(active);
+        
     }
 
     #endregion

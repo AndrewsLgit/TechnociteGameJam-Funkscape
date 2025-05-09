@@ -137,14 +137,14 @@ public class Spawner : MonoBehaviour
 
     private void CaptainPointAtSpawns()
     {
-        for (int i = 0; i < _enemySpawnIndices.Length; i++)
-        {
-            Vector2 direction = _spawnPoints[_enemySpawnIndices[i]].transform.position - _captainArm.transform.position;
-            var armRotation = Quaternion.LookRotation(Vector3.forward, direction);
-            _captainArm.transform.rotation = armRotation;
-            //new WaitForSeconds(_spawnInterval);
-            //_weaponPoint.rotation = playerRotation;
-        }
+        // for (int i = 0; i < _enemySpawnIndices.Length; i++)
+        // {
+        //     Vector2 direction = _spawnPoints[_enemySpawnIndices[i]].transform.position - _captainArm.transform.position;
+        //     var armRotation = Quaternion.LookRotation(Vector3.forward, direction);
+        //     _captainArm.transform.rotation = armRotation;
+        //     //new WaitForSeconds(_spawnInterval);
+        //     //_weaponPoint.rotation = playerRotation;
+        // }
 
         // for (int i = 0; i < _enemySpawnIndices.Length; i++)
         // {
@@ -188,7 +188,7 @@ public class Spawner : MonoBehaviour
         _enemySpawnIndices = GetSpawnIndices();
         _currentEnemyIndex = 0;
         _spawnedEnemies = new EnemyBehavior[_maxEnemies];
-        CaptainPointAtSpawns();
+        //CaptainPointAtSpawns();
     }
 
     #endregion

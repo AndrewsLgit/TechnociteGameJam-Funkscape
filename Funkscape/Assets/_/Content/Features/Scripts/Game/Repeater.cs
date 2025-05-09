@@ -93,11 +93,16 @@ public class Repeater : MonoBehaviour
         _repeatDelta = m_repeatTime;
         _startupDelta = m_startupTime;
         _repeatCount = m_repeatCount;
+        this.enabled = true;
     }
 
     public void StopRepeater()
     {
         _startRepeater = false;
+        _repeatDelta = m_repeatTime;
+        _startupDelta = m_startupTime;
+        _repeatCount = m_repeatCount;
+        this.enabled = false;
     }
     
     public int GetCurrentRepeatCount() =>  _repeatCount;

@@ -129,15 +129,20 @@ public class Player : MonoBehaviour
 
     private void OnHit()
     {
-        if (_hasParried)
+        switch (_hasParried)
         {
-            _hasParried = false;
-            Debug.Log($"Player Parry!");
-            return;
+            case true:
+                _hasParried = false;
+                Debug.Log($"Player Parry!");
+                return;
+            case false:
+                _currentPlayerHealth--;
+                _blinkNb = 0;
+                _repeater.StopRepeater();
+                break;
         }
-        _currentPlayerHealth--;
-        _blinkNb = 0;
-        _repeater.StopRepeater();
+
+
         switch (_currentPlayerHealth)
         {
             case 3:
@@ -166,9 +171,9 @@ public class Player : MonoBehaviour
 
     private void OnBlink()
     {
-        _blinkNb++;
         _crosshairFlash.SetActive(!_crosshairFlash.activeSelf);
         _crosshair.SetActive(!_crosshair.activeSelf);
+        _blinkNb++;
         
         Debug.Log($"Blink Nb: {_blinkNb}");
         if (_blinkNb >= _maxBlinks)

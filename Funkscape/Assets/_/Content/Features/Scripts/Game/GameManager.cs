@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        Time.timeScale = 1;
+        Time.timeScale = 0;
         _gameOverMenu.SetActive(true);
     }
 
@@ -115,7 +115,7 @@ public class GameManager : MonoBehaviour
         var rnd = Random.Range(0, 1f);
         var rndIndex = Random.Range(0, _spawnedEnemies.Count);
         Debug.Log($"RandomizeEnemyActions random index {rndIndex}");
-        if (_spawnedEnemies[rndIndex] == null) return;
+        if (_spawnedEnemies == null) return;
         switch (rnd)
         {
             case > .6f:

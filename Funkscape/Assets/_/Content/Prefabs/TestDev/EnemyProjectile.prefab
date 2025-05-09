@@ -48,9 +48,9 @@ MonoBehaviour:
   m_onBlink:
     m_PersistentCalls:
       m_Calls: []
-  _maxSize: 4
-  _timeToMaxSize: 3
-  _timeToDestroy: 3
+  _maxSize: 3
+  _timeToMaxSize: 4
+  _timeToDestroy: 4
   _roundSystemSO: {fileID: 11400000, guid: 53e6f2444606543cb9165cb9c80a9c96, type: 2}
 --- !u!212 &5879095642062694088
 SpriteRenderer:

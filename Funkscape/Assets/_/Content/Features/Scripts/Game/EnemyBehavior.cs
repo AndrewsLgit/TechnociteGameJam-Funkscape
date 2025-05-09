@@ -15,6 +15,7 @@ public class EnemyBehavior : MonoBehaviour
     #region Public Variables
 
     public UnityEvent m_onEnemyDestoyed;
+    //public UnityEvent<float> m_onBlink;
     
     #endregion
     
@@ -25,6 +26,9 @@ public class EnemyBehavior : MonoBehaviour
     private Sequence _tweenSequence;
     private Player _player;
     private GameManager _gameManager;
+    
+    [SerializeField] private EnemyProjectile  _projectile;
+    
     private int _thrust = 5;
     private bool _movedRight = false;
     private bool _movedUp = false;
@@ -50,6 +54,8 @@ public class EnemyBehavior : MonoBehaviour
         _projectilePool = FindObjectsByType<SpawnPool>(sortMode: FindObjectsSortMode.None).FirstOrDefault(x => x.CompareTag("EnemyPool"));
         _player = FindFirstObjectByType<Player>();
         _gameManager = FindFirstObjectByType<GameManager>();
+        
+        //m_onBlink.AddListener(_player.StartRepeater);
     }
 
     // Update is called once per frame
@@ -106,7 +112,7 @@ public class EnemyBehavior : MonoBehaviour
                     .OnComplete(() =>
                     {
                         _movedRight = false;
-                        if (!_attacking) Attack();
+                        //if (!_attacking) Attack();
                     });
                 break;
             case false:
@@ -116,15 +122,36 @@ public class EnemyBehavior : MonoBehaviour
                 break;
         }
     }
-
-    private void Attack()
+    
+    public IEnumerator IdleMovement(float time)
     {
-        GameObject projectile = _projectilePool.GetFirstAvailableProjectile();
-        //projectile.GetComponent<EnemyProjectile>().m_onBlink.AddListener();
-        projectile.transform.position = _weaponPoint.position;
+        switch (_movedRight)
+        {
+            case true:
+                yield return transform.DOMoveX(transform.localPosition.x - _idleMoveDistance.x, time)
+                    .OnComplete(() =>
+                    {
+                        _movedRight = false;
+                    });
+                break;
+            case false:
+                yield return transform.DOMoveX(transform.localPosition.x + _idleMoveDistance.x, time)
+                    .OnComplete(() => _movedRight = true);
+                break;
+        }
+    }
+
+    public void Attack()
+    {
+        //GameObject projectile = _projectilePool.GetFirstAvailableProjectile();
+        var projectile = Instantiate(_projectile, _weaponPoint.position, Quaternion.identity);
+        //projectile.m_onBlink.AddListener(_player.StartRepeater);
+        //_player.StartRepeater(_roundSystemSO.GetBeatInterval());
+        //m_onBlink?.Invoke(_roundSystemSO.GetBeatInterval());
+        //projectile.transform.position = _weaponPoint.position;
         //projectile.transform.rotation = _weaponPoint.rotation;
         //laser.transform.rotation = transform.rotation;
-        projectile.SetActive(true);
+        // projectile.SetActive(true);
         _attacking = true;
         
         //Debug.Log($"Shot {laser.name}");

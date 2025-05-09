@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2004357624563158313
 Transform:
   m_ObjectHideFlags: 0
@@ -48,9 +48,10 @@ MonoBehaviour:
   m_onBlink:
     m_PersistentCalls:
       m_Calls: []
-  _maxSize: 8
+  _maxSize: 4
   _timeToMaxSize: 3
   _timeToDestroy: 3
+  _roundSystemSO: {fileID: 11400000, guid: 53e6f2444606543cb9165cb9c80a9c96, type: 2}
 --- !u!212 &5879095642062694088
 SpriteRenderer:
   m_ObjectHideFlags: 0

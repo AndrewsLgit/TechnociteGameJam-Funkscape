@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     #region Private Variables
 
     [SerializeField] private GameObject _crosshair;
+    [SerializeField] private GameObject _crosshairFlash;
     [SerializeField] private Transform _weaponPoint;
     [SerializeField] private SpawnPool _projectilePool;
     
@@ -32,6 +33,7 @@ public class Player : MonoBehaviour
     private int _blinkNb;
     private int _currentPlayerHealth;
     private Vector2 _ray2D;
+    private bool _hasParried;
 
     #endregion
     
@@ -44,6 +46,7 @@ public class Player : MonoBehaviour
         _playerController = GetComponent<IPlayerController>();
         _playerController.SubscribeToAttackEvent(Shoot);
         _playerController.SubscribeToEscapeEvent(_gameManager.PauseGame);
+        _playerController.SubscribeToParryEvent(Parry);
         _windowHp3.SetActive(true);
         _windowHp2.SetActive(false);
         _windowHp1.SetActive(false);
@@ -67,6 +70,7 @@ public class Player : MonoBehaviour
     {
         _playerController.UnsubscribeFromAttackEvent(Shoot);
         _playerController.UnsubscribeFromEscapeEvent(_gameManager.PauseGame);
+        _playerController.UnsubscribeFromParryEvent(Parry);
         Debug.Log($"Player death | Game object active: {gameObject.activeSelf}");
     }
 
@@ -77,6 +81,7 @@ public class Player : MonoBehaviour
     private void LookAtPosition(Vector2 targetPos)
     {
         _crosshair.transform.position = targetPos;
+        _crosshairFlash.transform.position = targetPos;
         //Vector2 direction = targetPos - (Vector2)transform.position;
         //var playerRotation = Quaternion.LookRotation(Vector3.forward, direction);
         //transform.rotation = playerRotation;
@@ -113,7 +118,7 @@ public class Player : MonoBehaviour
 
     private void Parry()
     {
-        
+        if (_blinkNb is <= 3 and > 0) _hasParried = true;
     }
 
     private void OnDeath()
@@ -124,6 +129,12 @@ public class Player : MonoBehaviour
 
     private void OnHit()
     {
+        if (_hasParried)
+        {
+            _hasParried = false;
+            Debug.Log($"Player Parry!");
+            return;
+        }
         _currentPlayerHealth--;
         _blinkNb = 0;
         _repeater.StopRepeater();
@@ -156,8 +167,16 @@ public class Player : MonoBehaviour
     private void OnBlink()
     {
         _blinkNb++;
+        _crosshairFlash.SetActive(!_crosshairFlash.activeSelf);
+        _crosshair.SetActive(!_crosshair.activeSelf);
+        
         Debug.Log($"Blink Nb: {_blinkNb}");
-        if (_blinkNb >= _maxBlinks) OnHit();
+        if (_blinkNb >= _maxBlinks)
+        {
+            _crosshairFlash.SetActive(false);
+            _crosshair.SetActive(true);
+            OnHit();
+        }
     }
 
     private IEnumerator AlarmBlink(float time)
@@ -179,7 +198,7 @@ public class Player : MonoBehaviour
     { 
         blinkInterval /= _maxBlinks;
         _repeater.m_repeatTime = blinkInterval;
-        _repeater.m_repeatCount = _maxBlinks-1;
+        _repeater.m_repeatCount = _maxBlinks;
         
         _repeater.m_OnRepeat.AddListener(OnBlink);
         //_repeater.m_OnStartupEnd.AddListener(OnHit);

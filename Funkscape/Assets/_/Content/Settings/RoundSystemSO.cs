@@ -35,7 +35,9 @@ public class RoundSystemSO : ScriptableObject
     {
         _currentRound++;
         _highScore = Mathf.Max(_highScore, _currentRound);
-        if (_currentRound % 3 == 0) IncreaseMaxEnemies();
+        if (_currentRound % 3 != 0) return;
+        if(_maxEnemies < 5) IncreaseMaxEnemies();
+        if(_currentRound >= 5) DecreaseBeatInterval();
     }
     
     public int GetMaxEnemies() => _maxEnemies;

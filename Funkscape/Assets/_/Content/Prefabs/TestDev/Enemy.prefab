@@ -83,6 +83,7 @@ MonoBehaviour:
   m_onEnemyDestoyed:
     m_PersistentCalls:
       m_Calls: []
+  _projectile: {fileID: 6363843985699492534, guid: a7b2b2d8c0b7c459cb050df76568b163, type: 3}
   _idleMoveDistance: {x: 0.9, y: 0.3}
   _idleMoveTime: 0.5
   _weaponPoint: {fileID: 2838783765681316963}
@@ -100,7 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69efbcb4a11bc486e8517faeada8dbb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _offset: 0
+  _offset: 1
   isMovingRight: 0
   isMovingUp: 0
 --- !u!212 &7672870468098200731

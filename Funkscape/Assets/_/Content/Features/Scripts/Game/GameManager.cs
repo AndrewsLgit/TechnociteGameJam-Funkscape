@@ -32,9 +32,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _pauseMenu = null;
     [SerializeField] private GameObject _commandsMenu = null;
     [SerializeField] private GameObject _gameOverMenu = null;
-
-    [SerializeField] private float _breakTimeCounter;
-
+    
     private Repeater _repeater;
     private bool _isPaused;
     private bool _isFirstRound;
@@ -61,7 +59,7 @@ public class GameManager : MonoBehaviour
         
         _repeater = GetComponent<Repeater>();
         _repeater.m_loopForever = true;
-        _repeater.m_OnRepeat.AddListener(Counter);
+        _repeater.m_OnRepeat.AddListener(RandomizeEnemyActions);
         _repeater.m_repeatTime = _counterInterval;
         _repeater.StartRepeater();
     }
@@ -72,6 +70,8 @@ public class GameManager : MonoBehaviour
         if (_isPaused || _isFirstRound) return;
         _maxEnemies = _roundSystemSO.GetMaxEnemies();
         _hasAnyoneShot = _roundSystemSO.m_hasAnyoneShot;
+
+        //RandomizeEnemyActions();
     }
     
     #endregion
@@ -83,6 +83,11 @@ public class GameManager : MonoBehaviour
         _isPaused = false;
         Time.timeScale = 1;
         _pauseMenu.SetActive(_isPaused );
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 
     public void RestartGame()
@@ -101,6 +106,26 @@ public class GameManager : MonoBehaviour
         _isFirstRound = true;
         _commandsMenu.SetActive(_isFirstRound);
         Time.timeScale = 0;
+    }
+
+    private void RandomizeEnemyActions()
+    {
+        if (_roundSystemSO.m_hasAnyoneShot) return;
+        if(_spawnedEnemies == null) return;
+        var rnd = Random.Range(0, 1f);
+        var rndIndex = Random.Range(0, _spawnedEnemies.Count);
+        Debug.Log($"RandomizeEnemyActions random index {rndIndex}");
+        if (_spawnedEnemies[rndIndex] == null) return;
+        switch (rnd)
+        {
+            case > .6f:
+                _spawnedEnemies[rndIndex].Attack();
+                break;
+            case > .4f:
+                    StartCoroutine(_spawnedEnemies[rndIndex].IdleMovement(_roundSystemSO.GetBeatInterval()));
+                break;
+            
+        }
     }
     
     public void PauseGame()
@@ -135,14 +160,18 @@ public class GameManager : MonoBehaviour
         if (_enemiesKilled != _roundSystemSO.GetMaxEnemies()) return;
         StartCoroutine(PauseGame(3f));
         _roundSystemSO.IncreaseRound();
+        SetScoreTexts();
+        _repeater.m_repeatTime = _roundSystemSO.GetBeatInterval();
+        _repeater.StopRepeater();
+        _repeater.StartRepeater();
         m_resetSpawnPoints.Invoke();
         _spawnedEnemies.Clear();
         
-        if (_roundSystemSO.GetCurrentRound() % 3 == 0)
-        {
-            //_roundSystemSO.IncreaseMaxEnemies();
-            Debug.Log("Increased max enemies: " + _roundSystemSO.GetMaxEnemies());
-        }
+        // if (_roundSystemSO.GetCurrentRound() % 3 == 0)
+        // {
+        //     //_roundSystemSO.IncreaseMaxEnemies();
+        //     Debug.Log("Increased max enemies: " + _roundSystemSO.GetMaxEnemies());
+        // }
         Debug.Log($"Passed to round {_roundSystemSO.GetCurrentRound()}");
         
         m_enableEnemySpawn.Invoke();
@@ -176,15 +205,6 @@ public class GameManager : MonoBehaviour
         
         Debug.Log($"Enemy {_spawnedEnemies[index].name} was killed");
         _spawnedEnemies.RemoveAt(index);
-    }
-
-    private void StartBreakTimer()
-    {
-        if(_breakTimeCounter > 0 ) _breakTimeCounter -= Time.unscaledDeltaTime;
-        else
-        {
-            _breakTimeCounter = 0;
-        }
     }
     
     private IEnumerator PauseGame(float pauseTime){

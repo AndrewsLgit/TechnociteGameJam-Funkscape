@@ -17,9 +17,10 @@ public class EnemyProjectile : MonoBehaviour
 
     #region Private Variables
 
-    [SerializeField] private float _maxSize = 8f;
+    [SerializeField] private float _maxSize = 5f;
     [SerializeField] private float _timeToMaxSize = 2f;
     [SerializeField] private float _timeToDestroy = 3f;
+    [SerializeField] private RoundSystemSO _roundSystemSO;
 
     private float _70percentTime;
     private float _10percentTime;
@@ -41,6 +42,7 @@ public class EnemyProjectile : MonoBehaviour
         _canBlink = true;
         _player = FindFirstObjectByType<Player>();
         m_onBlink.AddListener(_player.StartRepeater);
+        _roundSystemSO.SetHasAnyoneShot(true);
         DOTween.Init(recycleAllByDefault: true);
         IncreaseSize();
     }
@@ -63,21 +65,30 @@ public class EnemyProjectile : MonoBehaviour
         // }
     }
 
-    private void OnEnable()
-    {
-        Invoke(nameof(Deactivate), _timeToDestroy);
-        _70percentTime= _timeToMaxSize * 0.7f;
-        _10percentTime = _timeToMaxSize * 0.1f;
-        _canBlink = true;
-        _player = FindFirstObjectByType<Player>();
-        m_onBlink.AddListener(_player.StartRepeater);
-        DOTween.Init(recycleAllByDefault: true);
-        IncreaseSize();
-    
-    }
+    // private void OnEnable()
+    // {
+    //     //Invoke(nameof(Deactivate), _timeToDestroy);
+    //     _70percentTime= _timeToMaxSize * 0.7f;
+    //     _10percentTime = _timeToMaxSize * 0.1f;
+    //     _canBlink = true;
+    //     _player = FindFirstObjectByType<Player>();
+    //     m_onBlink.AddListener(_player.StartRepeater);
+    //     DOTween.Init(recycleAllByDefault: true);
+    //     IncreaseSize();
+    //
+    // }
 
     private void OnDisable()
     {
+        CancelInvoke(nameof(Deactivate));
+        DOTween.Clear();
+    }
+
+    private void OnDestroy()
+    {
+        _roundSystemSO.SetHasAnyoneShot(false);
+        CancelInvoke(nameof(m_onBlink));
+        Debug.Log($"Has anyone shot: {_roundSystemSO.m_hasAnyoneShot}");
         CancelInvoke(nameof(Deactivate));
         DOTween.Clear();
     }
@@ -88,21 +99,31 @@ public class EnemyProjectile : MonoBehaviour
 
     private void IncreaseSize()
     {
+        //_roundSystemSO.SetHasAnyoneShot(true);
         var tween = transform.DOScale(_maxSize, _timeToMaxSize)
             .SetEase(Ease.OutCirc);
         
+        m_onBlink?.Invoke(_timeToMaxSize);
+        
         // tween.OnUpdate(() => _isBlinking = tween.position >= _70percentTime);
-        tween.OnUpdate(() =>
-        {
-            _currentTweenTime = tween.position;
-            if (tween.position >= _timeToMaxSize * 0.5f && _canBlink)
-            {
-                //Blinker();
-                Debug.Log($"Starting Blinker with {_timeToMaxSize - tween.position}");
+        // tween.OnUpdate(() =>
+        // {
+        //     _currentTweenTime = tween.position;
+        //     if (!(tween.position >= _timeToMaxSize * 0.4f) || !_canBlink) return;
+        //     //Blinker();
+        //     Debug.Log($"Starting Blinker with {_timeToMaxSize - tween.position}");
+        //     
+        //
+        //     m_onBlink?.Invoke(_timeToMaxSize - tween.position);
+        //     _canBlink = false;
+        // });
+        
+        tween.OnKill(() => Destroy(gameObject));
 
-                m_onBlink?.Invoke(_timeToMaxSize - tween.position);
-                _canBlink = false;
-            }
+        tween.OnComplete(() =>
+        {
+            _roundSystemSO.SetHasAnyoneShot(false);
+            Destroy(gameObject);
         });
     }
     

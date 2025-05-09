@@ -46,10 +46,10 @@ public class CameraWrapper : MonoBehaviour
         isMovingRight = currentPosition.x - _lastPosition.x > 0;
         isMovingUp = currentPosition.y - _lastPosition.y > 0;
         
-        if (isMovingRight && currentPosition.x > _topRightBoundary.x+_offset) TeleportLeft();
-        else if (!isMovingRight && currentPosition.x < _bottomLeftBoundary.x-_offset) TeleportRight();
-        else if (isMovingUp && currentPosition.y > _topRightBoundary.y+_offset) TeleportDown();
-        else if (!isMovingUp && currentPosition.y < _bottomLeftBoundary.y-_offset) TeleportUp();
+        if (isMovingRight && currentPosition.x > _topRightBoundary.x-_offset) TeleportLeft();
+        else if (!isMovingRight && currentPosition.x < _bottomLeftBoundary.x+_offset) TeleportRight();
+        else if (isMovingUp && currentPosition.y > _topRightBoundary.y-_offset) TeleportDown();
+        else if (!isMovingUp && currentPosition.y < _bottomLeftBoundary.y+_offset) TeleportUp();
 
         _lastPosition = currentPosition;
     }
